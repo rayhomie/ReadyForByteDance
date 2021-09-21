@@ -120,6 +120,7 @@ function postOrderStack(root) {
   return res;
 }
 
+//层序遍历递归，就是用前序遍历这是多传可一个结果存放时的索引的参数
 function levelOrder(root) {
   const arr = [];
   function loop(node, h) {
