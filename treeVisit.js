@@ -121,6 +121,20 @@ function postOrderStack(root) {
 }
 
 function levelOrder(root) {
+  const arr = [];
+  function loop(node, h) {
+    if (!node) return;
+    if (!arr[h]) arr[h] = [];
+    arr[h].push(node.val);
+
+    loop(node.left, h + 1);
+    loop(node.right, h + 1);
+  }
+  loop(root, 0);
+  return arr;
+}
+
+function levelOrderQueue(root) {
   const res = [];
   if (!root) return res;
   const queue = [];
