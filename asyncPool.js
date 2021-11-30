@@ -1,11 +1,11 @@
 //ES7
 async function asyncPool(poolLimit, array, iteratorFn) {
-  const ret = []; // 存储所有的异步任务
+  const ret = []; // 保存所有结果的数组
   const executing = []; // 存储正在执行的异步任务
   for (const item of array) {
-    // 调用iteratorFn函数创建异步任务
+    // 调用iteratorFn函数执行异步任务
     const p = Promise.resolve().then(() => iteratorFn(item, array));
-    ret.push(p); // 保存新的异步任务
+    ret.push(p); // 保存该任务的结果
 
     // 当poolLimit值小于或等于总任务个数时，进行并发控制
     if (poolLimit <= array.length) {
@@ -13,12 +13,17 @@ async function asyncPool(poolLimit, array, iteratorFn) {
       const e = p.then(() => executing.splice(executing.indexOf(e), 1));
       executing.push(e); // 保存正在执行的异步任务
       if (executing.length >= poolLimit) {
+        // 当前正在执行的任务数组长度超了就需要等待
         await Promise.race(executing); // 等待较快的任务执行完成
       }
     }
   }
-  return Promise.all(ret);
+  return Promise.all(ret); // 获取有序的结果
 }
+/*
+充分利用了 Promise.all 和 Promise.race 函数特点，再结合 ES7 中提供的 async await 特性，最终实现了并发控制的功能。
+利用 await Promise.race(executing); 这行语句，我们会等待 正在执行任务列表 中较快的任务执行完成之后，才会继续执行下一次循环。
+*/
 
 const timeout = (i) =>
   new Promise((resolve) =>
