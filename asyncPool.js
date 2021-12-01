@@ -9,7 +9,7 @@ async function asyncPool(poolLimit, array, iteratorFn) {
 
     // 当poolLimit值小于或等于总任务个数时，进行并发控制
     if (poolLimit <= array.length) {
-      // 当任务完成后，从正在执行的任务数组中移除已完成的任务
+      // 当任务完成后，从正在执行的任务数组中移除已完成的任务（then后后面的回调只是注册，调用是在当前任务p执行结束后）
       const e = p.then(() => executing.splice(executing.indexOf(e), 1));
       executing.push(e); // 保存正在执行的异步任务
       if (executing.length >= poolLimit) {
