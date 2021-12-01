@@ -1,3 +1,5 @@
+//https://mp.weixin.qq.com/s?__biz=MzI2MjcxNTQ0Nw==&mid=2247490704&idx=1&sn=18976b9c9fe2456172c394f1d9cae88b&scene=21#wechat_redirect
+
 //ES7
 async function asyncPool(poolLimit, array, iteratorFn) {
   const ret = []; // 保存所有结果的数组
